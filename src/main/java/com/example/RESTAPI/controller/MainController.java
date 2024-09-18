@@ -35,6 +35,7 @@ public class MainController {
             }
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (Exception e) {
+            //e.printStackTrace();
             System.err.format("ERROR: %s\n", e.getMessage());
             return new ResponseEntity<>(new Message(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -46,9 +47,9 @@ public class MainController {
         long offsetTime = setOffsetTime(1000,2000);
         try {
             if (
-                    body.size() == 3 &&
-                            body.get("login") != null && body.get("password") != null && body.get("email") != null &&
-                            !body.get("login").trim().isEmpty() && !body.get("password").trim().isEmpty() && !body.get("email").trim().isEmpty()
+                body.size() == 3 &&
+                body.get("login") != null && body.get("password") != null && body.get("email") != null &&
+                !body.get("login").trim().isEmpty() && !body.get("password").trim().isEmpty() && !body.get("email").trim().isEmpty()
             )
             {
                 DBController db_connect = new DBController("jdbc:postgresql://192.168.1.45:5432/loadDB", "loaderDB", "ReSo999+");
@@ -62,6 +63,7 @@ public class MainController {
             }
         }
         catch (Exception e) {
+            //e.printStackTrace();
             System.err.format("ERROR: %s\n", e.getMessage());
             return new ResponseEntity<>(new Message(e.getMessage()), HttpStatus.BAD_REQUEST);
         }

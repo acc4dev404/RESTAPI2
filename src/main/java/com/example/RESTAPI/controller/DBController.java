@@ -42,7 +42,8 @@ public class DBController {
         } catch (SQLException e) {
             System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            System.err.format("ERROR: %s\n", e.getMessage());
         }
 
         if (isRecord)
@@ -75,7 +76,8 @@ public class DBController {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            System.err.format("ERROR: %s\n", e.getMessage());
         }
 
         return rows;
