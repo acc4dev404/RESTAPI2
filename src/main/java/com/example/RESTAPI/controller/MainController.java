@@ -16,26 +16,22 @@ import java.util.Map;
 @RestController
 public class MainController {
 
-    private long setOffsetTime(int minOffsetTime, int maxOffsetTime) throws InterruptedException {
-        long start = System.currentTimeMillis();
-        int randomTime = (int) ((Math.random() * (maxOffsetTime - minOffsetTime)) + minOffsetTime);
-        Thread.sleep(randomTime);
-        return System.currentTimeMillis() - start;
+    private void setOffsetTime(int minOffsetTime, int maxOffsetTime) throws InterruptedException {
+        Thread.sleep( (int) ((Math.random() * (maxOffsetTime - minOffsetTime)) + minOffsetTime) );
     }
 
     @GetMapping(path="/")
     @ResponseBody
     public ResponseEntity<?> getUserByLogin(@RequestParam String login) throws InterruptedException {
-        long offsetTime = setOffsetTime(1000,2000);
+        setOffsetTime(1000,2000);
         try {
             DBController db_connect = new DBController("jdbc:postgresql://192.168.1.45:5432/loadDB", "loaderDB", "ReSo999+");
-            User user = db_connect.getUser(login);
-            if (user == null) {
+            User user;
+            if ((user = db_connect.getUser(login)) == null)
                 throw new Exception("Login not found");
-            }
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (Exception e) {
-            //e.printStackTrace();
+            e.printStackTrace();
             System.err.format("ERROR: %s\n", e.getMessage());
             return new ResponseEntity<>(new Message(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -44,7 +40,7 @@ public class MainController {
     @PostMapping(path="/")
     @ResponseBody
     public ResponseEntity<?> postUsers(@RequestBody Map<String, String> body) throws InterruptedException {
-        long offsetTime = setOffsetTime(1000,2000);
+        setOffsetTime(1000,2000);
         try {
             if (
                 body.size() == 3 &&
@@ -58,12 +54,9 @@ public class MainController {
                 }
                 return new ResponseEntity<>(new Message("User created") , HttpStatus.OK);
             }
-            else {
-                throw new Exception("JSON is incorrect");
-            }
-        }
-        catch (Exception e) {
-            //e.printStackTrace();
+            throw new Exception("JSON is incorrect");
+        } catch (Exception e) {
+            e.printStackTrace();
             System.err.format("ERROR: %s\n", e.getMessage());
             return new ResponseEntity<>(new Message(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
