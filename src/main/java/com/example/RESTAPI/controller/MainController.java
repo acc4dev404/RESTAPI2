@@ -33,7 +33,7 @@ public class MainController {
             user = db_connect.getUser(login);
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -50,7 +50,7 @@ public class MainController {
             } else
                 throw new Exception("JSON is incorrect");
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
