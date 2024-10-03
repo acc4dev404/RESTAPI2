@@ -45,6 +45,7 @@ public class MainController {
             if (body.size() == 3 &&
                 body.get("login") != null && body.get("password") != null && body.get("email") != null &&
                 !body.get("login").trim().isEmpty() && !body.get("password").trim().isEmpty() && !body.get("email").trim().isEmpty()) {
+
                 db_connect.createUser(new User(body.get("login"), body.get("password"), body.get("email")));
                 return new ResponseEntity<>(HttpStatus.OK);
             } else
